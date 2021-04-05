@@ -3,4 +3,4 @@ __pycache__
 run_manager
 package-lock.json
 node_modules
-venv
+venv/
