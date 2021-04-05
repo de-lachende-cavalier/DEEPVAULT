@@ -1,0 +1,56 @@
+{% extends 'home/base.html' %}
+{% load rules %}
+{% load static %}
+
+
+{% block extra_head %}
+    <title>vault</title>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'vault/vault_main.css' %}">
+{% endblock extra_head %}
+
+{% block main_body %}
+
+    {% if not request.session.viewed_token %}
+    <div class="row mb-5">
+        <div class="col-5"></div>
+        <div class="col-2">
+            <a class="btn btn-outline-danger" role="button" href="{% url 'user_token' %}">
+                GET TOKEN
+            </a>
+        </div>
+    </div>
+    {% endif %}
+
+{% for safe in vault %}
+
+    {% has_perm 'vault.view_vault' user safe as can_view_safe %}
+
+    <div class="row">
+    {% if can_view_safe %}
+        <div class="col-4 mt-3">
+            <h4 class="vault_heading h4"> {{ safe.app|upper }} </h4>
+        </div>
+        <div class="col-12">
+            <div class="btn-group" role="group" aria-label="vault_actions">
+                <a class="btn btn-outline-secondary" href="{{ safe.id }}">details</a>
+                <a class="btn btn-outline-secondary" href="{% url 'vault_update' safe.id %}">update</a>
+                <a class="btn btn-outline-secondary" href="{% url 'vault_delete' safe.id %}">delete</a>
+            </div>
+        </div>
+    {% endif %}
+    </div>
+
+{% endfor %}
+
+    <div class="row mt-4">
+        <div class="col-5"></div>
+        <div class="col-2">
+            <a class="btn btn-outline-primary" role="button" href="{% url 'vault_create' %}">
+                new safe
+            </a>
+        </div>
+    </div>
+
+{% endblock main_body %}
+

@@ -1,0 +1,26 @@
+{% extends 'home/base.html'%}
+{% load static %}
+
+{% block extra_head %}
+    <title>private token</title>
+
+    <style>
+        .token {
+            color: #333333;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+{% endblock extra_head %}
+
+{% block main_body %}
+    <p style="color: lightgreen" class="text-monospace text-center">watch out for shoulder surfing!</p>
+    <p style="color: lightgrey" class="text-monospace text-center text-muted">
+        simply select the string below and then Ctrl-C to copy the new token.
+    </p>
+    <div class="container">
+        <p class="token">{{ password_token }}</p>
+    </div>
+{% endblock main_body %}
+

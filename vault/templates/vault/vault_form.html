@@ -1,0 +1,20 @@
+{% extends 'home/base.html' %}
+{% load rules %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+
+
+{% block main_body %}
+    <div>
+        <form method="POST" enctype="application/x-www-form-urlencoded">
+            {% csrf_token %}
+            <fieldset class="form-group" style="color: white">
+                <legend class="border-bottom mb-4" style="color: white">new safe</legend>
+                {{ form | crispy | lower }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">create</button>
+            </div>
+        </form>
+    </div>
+{% endblock main_body %}

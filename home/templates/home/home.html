@@ -1,0 +1,31 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block extra_head %}
+    <title>home</title>
+{% endblock extra_head %}
+
+{% block main_body %}
+    <div class="row" style="min-height: 150px"></div>
+
+    <div class="row text-center">
+        <div class="col">
+            <img src="{% static 'home/img/banner.png' %}" alt="app_banner" class="img-fluid">
+        </div>
+    </div>
+
+    <div class="row" style="min-height: 10px"></div>
+
+    <div class="row text-center">
+        <div class="col">
+            <p style="color: white">
+                DEEPVAULT is a password manager running exclusively on Tor. It aims to be more secure and private
+                than any password manager out there, while also being accessible by your browser.
+            </p>
+            <a type="button" class="btn btn-outline-secondary" href="{% url 'main_about' %}">
+                Learn more
+            </a>
+        </div>
+    </div>
+{% endblock main_body %}
+

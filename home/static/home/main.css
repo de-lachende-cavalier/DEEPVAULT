@@ -1,0 +1,60 @@
+html *
+{
+  font-family: "TerminessTTF Nerd Font Mono", serif;
+  font-size: 18px;
+
+}
+/*noinspection ALL*/
+body {
+  background:
+  linear-gradient(27deg, #151515 5px, transparent 5px) 0 5px,
+  linear-gradient(207deg, #151515 5px, transparent 5px) 10px 0px,
+  linear-gradient(27deg, #222 5px, transparent 5px) 0px 10px,
+  linear-gradient(207deg, #222 5px, transparent 5px) 10px 5px,
+  linear-gradient(90deg, #1b1b1b 10px, transparent 10px),
+  linear-gradient(#1d1d1d 25%, #1a1a1a 25%, #1a1a1a 50%, transparent 50%, transparent 75%, #242424 75%, #242424);
+  background-color: #131313;
+  background-size: 20px 20px;
+  color: #333333;
+  margin-top: 5rem;
+}
+
+
+ul {
+  margin: 0;
+}
+
+.site-header .navbar-nav .nav-link .nav {
+  color: #cbd5db;
+}
+
+.site-header .navbar-nav .nav-link:hover {
+  color: lightgreen;
+}
+
+.site-header .navbar-nav .nav-link.active {
+  font-weight: 500;
+}
+
+.content-section {
+  padding-left: 50px;
+  margin-bottom: 20px;
+  color: white;
+}
+
+.account-heading {
+  font-size: 2.5rem;
+}
+
+.banner {
+  position: absolute;
+  top: 125px;
+  left: 0;
+}
+
+.banner_bottom {
+  position: absolute;
+  top: 250px;
+  font-size: 18px;
+}
+

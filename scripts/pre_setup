@@ -1,0 +1,22 @@
+#!/bin/bash
+
+echo -e "Preparing...\n"
+
+for file in $(ls /tmp/)
+do
+    shred -fuzn 100 '/tmp/'$file
+done
+
+node /Users/d0larhyde/deepapi/app.js &
+python3 /Users/d0larhyde/DEEPVAULT/scripts/encrypt_decrypt_locally.py &&
+killall node &&
+
+export PYTHONPATH="/Users/d0larhyde/DEEPVAULT" &&
+export TEMP='/tmp/'$(ls /tmp | grep '^[0-9a-f]*$') &&
+python3 -c "from utils import fernet_keystore_utils; fernet_keystore_utils.generate_keystore(10)" &&
+python3 -c "from utils import crypto_utils; crypto_utils.encrypt_keystore('/Users/d0larhyde/DEEPVAULT/keystore.enc', '$TEMP')" &&
+
+echo -e "Done.\n"
+
+
+

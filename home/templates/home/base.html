@@ -1,0 +1,94 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'home/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'home/main.css' %}">
+    <link rel="shortcut icon" type="image/png" href="{% static 'home/img/tor_variant.ico' %}">
+
+{% block extra_head %}
+{% endblock extra_head %}
+
+</head>
+
+<body>
+    <header class="site-header">
+      <nav class="navbar navbar-expand navbar-dark fixed-top">
+      <!-- Navbar left -->
+        <div class="navbar-collapse collapse w-100 dual-collapse2 order-1 order-md-0">
+            <ul class="navbar-nav ml-auto text-center">
+            {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">logout</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'registration' %}">signup</a>
+                </li>
+            {% endif %}
+            </ul>
+        </div>
+
+      <!-- Navbar center -->
+        <div class="mx-auto my-2 order-0 order-md-1 position-relative">
+        {% if user.is_authenticated %}
+
+            {% if 'vault' in request.get_full_path %}
+            <a class="mx-auto" href="{% url 'vault_home' %}">
+                <img src="{% static 'home/img/icons8-bank-safe-100.png' %}" width="40" height="40" alt="safe_open">
+            </a>
+            {% else %}
+            <a class="mx-auto" href="{% url 'vault_home' %}">
+                <img src="{% static 'home/img/icons8-safe-100.png' %}" width="40" height="40" alt="safe_closed">
+            </a>
+            {% endif %}
+
+        {% else %}
+            <a class="mx-auto" href="{% url 'main_home' %}">
+                <img src="{% static 'home/img/icons8-home-100.png' %}" width="40" height="40" alt="home">
+            </a>
+        {% endif %}
+        </div>
+
+      <!-- Navbar right -->
+        <div class="navbar-collapse collapse w-100 dual-collapse2 order-2 order-md-2">
+            <ul class="navbar-nav mr-auto text-center">
+                {% if not user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'user_delete' %}">wipe</a>
+                    </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'main_about' %}">about</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    </header>
+
+    <main role="main" class="container">
+        <div class="row">
+            <div class="col">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
+            {% endif %}
+            </div>
+        </div>
+      {% block main_body %}
+      {% endblock main_body %}
+    </main>
+</body>
+
+</html>

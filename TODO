@@ -1,0 +1,9 @@
+DEEPVAULT v2.0 -> currently a work in progress!!:
+- Write it in Rust
+- Two components: local and remote
+- Local component -> CLI app that starts the authentication with the server, stores all the necessary data LOCALLY!
+- Remote component -> A server that stores only the passwords and relative data with very strong encryption
+=> It avoids a lot of complications and useless boilerplate like HTML, JS and CSS; the remote server only becomes responsible for one thing and has more flexibility in carrying out its purpose, so the overall architecture is greatly simplified thus easier to mantain.
+
+- start laying out some specs (JUST DO IT)
+- accumulate the technologies that will enable the whole thing

@@ -1,0 +1,27 @@
+{% extends 'home/base.html' %}
+{% load rules %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+
+{% block extra_head %}
+    <title>update safe {{ object.id }}</title>
+{% endblock extra_head %}
+
+{% has_perm 'vault.change_vault' user vault as can_change_vault %}
+
+{% if can_change_vault %}
+    {% block main_body %}
+        <div>
+            <form method="POST" enctype="application/x-www-form-urlencoded">
+                {% csrf_token %}
+                <fieldset class="form-group" style="color: white">
+                    <legend class="border-bottom mb-4" style="color: white">update safe info</legend>
+                    {{ form | crispy | lower }}
+                </fieldset>
+                <div class="form-group">
+                    <button class="btn btn-outline-info" type="submit">save</button>
+                </div>
+            </form>
+        </div>
+    {% endblock main_body %}
+{% endif %}

@@ -1,0 +1,29 @@
+{% extends 'home/base.html' %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+
+{% block extra_head %}
+    <title>signup</title>
+{% endblock extra_head %}
+
+<body>
+{% block main_body %}
+    <div class="content-section">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">create a new account</legend>
+                {{ form | crispy | lower }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">sign up</button>
+            </div>
+        </form>
+        <div class="border-top pt-4">
+            <small class="text-muted">
+                already have an account? <a href="#">log in</a>
+            </small>
+        </div>
+    </div>
+{% endblock main_body %}
+</body>

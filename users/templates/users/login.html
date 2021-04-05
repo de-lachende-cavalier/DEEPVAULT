@@ -1,0 +1,28 @@
+{% extends 'home/base.html' %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+
+{% block extra_head %}
+    <title>login</title>
+{% endblock extra_head %}
+
+{% block main_body %}
+
+    <div class="content-section">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">access your vault</legend>
+                {{ form | crispy | lower}}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">log in</button>
+            </div>
+        </form>
+        <div class="border-top pt-4">
+            <small class="text-muted">
+                need an account? <a href="{% url 'registration' %}">sign up</a>
+            </small>
+        </div>
+    </div>
+{% endblock main_body %}

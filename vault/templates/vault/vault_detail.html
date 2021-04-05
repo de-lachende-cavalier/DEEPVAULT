@@ -1,0 +1,28 @@
+{% extends 'home/base.html' %}
+{% load rules %}
+
+{% block extra_head %}
+    <title>safe {{ object.id }}</title>
+
+    <style>
+        .details {
+            whitespace: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+{% endblock extra_head %}
+
+{% has_perm 'vault.view_vault' user vault as can_view_vault %}
+
+{% if can_view_vault %}
+    {% block main_body %}
+        <p style="color: lightgreen" class="text-monospace text-center">watch out for shoulder surfing!</p>
+        <div class="row">
+            <div class="col-2">
+                <h5 class="h5 details"><small style="color: lightgrey">username:</small> {{ object.app_username }}</h5>
+                <h5 class="h5 details"><small style="color: lightgrey">password:</small> {{ object.app_password }}</h5>
+            </div>
+        </div>
+    {% endblock main_body %}
+{% endif %}

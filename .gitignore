@@ -1,0 +1,6 @@
+__pycache__
+.idea
+run_manager
+package-lock.json
+node_modules
+venv

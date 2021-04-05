@@ -1,0 +1,30 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block extra_head %}
+    <title>about</title>
+{% endblock extra_head %}
+
+{% block main_body %}
+
+    {% for section in about %}
+        <h1 class="display-4 text-right" style="color: white">{{ section.title }}</h1>
+        <p style="color: white">{{ section.content }} </p>
+    {% endfor %}
+
+    {% if is_paginated %}
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="col-6">
+                <div class="btn-group" role="group" aria-label="about_section">
+                    <a class="btn btn-outline-secondary" href="?page=1">Why?</a>
+                    <a class="btn btn-outline-secondary" href="?page=2">Security</a>
+                    <a class="btn btn-outline-secondary" href="?page=3">Privacy</a>
+                    <a class="btn btn-outline-secondary" href="?page=4">How To</a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+
+{% endblock main_body %}
