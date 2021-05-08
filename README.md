@@ -16,4 +16,4 @@ Django code, in an effort to mimic a sort of LSM (a bit overcomplicated, i know.
 # Contributing
 
 Even though DEEPVAULT is not yet production ready (as specified above, it's mostly in its prototype stage and I have no
-plans to make it production ready yet) any contribution/tip is still very welcome :D
+plans to make it production ready) any contribution/tip is still very welcome.
