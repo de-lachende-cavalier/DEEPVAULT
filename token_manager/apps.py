@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class TokenManagerConfig(AppConfig):
-    name = 'token_manager'
+    name = "token_manager"

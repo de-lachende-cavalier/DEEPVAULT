@@ -32,10 +32,12 @@ class FernetBackend(ModelBackend):
             else:
                 try:
                     # compare_digest to avoid timing attacks (just like above)
-                    if self.user_can_authenticate(user) and compare_digest(user.password + str(user.last_login),
-                                                                           decrypt_with_random_key(password)):
-                        cipher = build_cipher(password, b'')
-                        decrypt_vault(cipher, user, b'')
+                    if self.user_can_authenticate(user) and compare_digest(
+                        user.password + str(user.last_login),
+                        decrypt_with_random_key(password),
+                    ):
+                        cipher = build_cipher(password, b"")
+                        decrypt_vault(cipher, user, b"")
 
                         return user
                 except InvalidToken:

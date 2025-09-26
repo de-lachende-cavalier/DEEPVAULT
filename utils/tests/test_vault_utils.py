@@ -13,14 +13,19 @@ import base64
 
 
 def create_vaults(username):
-
     vaults = []
 
     for _ in range(10):
-        vault = {'owner': username,
-                 'app': get_random_line('/Users/d0larhyde/DEEPVAULT/utils/dictionary/b'),
-                 'app_username': get_random_line('/Users/d0larhyde/DEEPVAULT/utils/dictionary/c'),
-                 'app_password': get_random_line('/Users/d0larhyde/DEEPVAULT/utils/dictionary/d')}
+        vault = {
+            "owner": username,
+            "app": get_random_line("/Users/d0larhyde/DEEPVAULT/utils/dictionary/b"),
+            "app_username": get_random_line(
+                "/Users/d0larhyde/DEEPVAULT/utils/dictionary/c"
+            ),
+            "app_password": get_random_line(
+                "/Users/d0larhyde/DEEPVAULT/utils/dictionary/d"
+            ),
+        }
 
         vaults.append(vault)
 
@@ -28,14 +33,7 @@ def create_vaults(username):
 
 
 def build_cipher(token):
-    kdf = Scrypt(
-        salt=b'',
-        length=32,
-        n=2 ** 16,
-        r=8,
-        p=1,
-        backend=default_backend()
-    )
+    kdf = Scrypt(salt=b"", length=32, n=2**16, r=8, p=1, backend=default_backend())
 
     key = kdf.derive(token.encode())
     cipher = AESGCM(key)
@@ -45,23 +43,32 @@ def build_cipher(token):
 
 def encrypt_vault(cipher, nonce, vaults):
     for vault in vaults:
-        vault['app'] = cipher.encrypt(nonce, vault['app'].encode(), b'').hex()
-        vault['app_username'] = cipher.encrypt(nonce, vault['app_username'].encode(), b'').hex()
-        vault['app_password'] = cipher.encrypt(nonce, vault['app_password'].encode(), b'').hex()
+        vault["app"] = cipher.encrypt(nonce, vault["app"].encode(), b"").hex()
+        vault["app_username"] = cipher.encrypt(
+            nonce, vault["app_username"].encode(), b""
+        ).hex()
+        vault["app_password"] = cipher.encrypt(
+            nonce, vault["app_password"].encode(), b""
+        ).hex()
 
     return vaults
 
 
 def decrypt_vault(cipher, nonce, vaults):
     for vault in vaults:
-        vault['app'] = cipher.decrypt(nonce, bytes.fromhex(vault['app']), b'').decode()
-        vault['app_username'] = cipher.decrypt(nonce, bytes.fromhex(vault['app_username']), b'').decode()
-        vault['app_password'] = cipher.decrypt(nonce, bytes.fromhex(vault['app_password']), b'').decode()
+        vault["app"] = cipher.decrypt(nonce, bytes.fromhex(vault["app"]), b"").decode()
+        vault["app_username"] = cipher.decrypt(
+            nonce, bytes.fromhex(vault["app_username"]), b""
+        ).decode()
+        vault["app_password"] = cipher.decrypt(
+            nonce, bytes.fromhex(vault["app_password"]), b""
+        ).decode()
 
     # cleanup
-    nonce = b''
+    nonce = b""
 
     return vaults, nonce
+
 
 # END ALERT
 
@@ -72,9 +79,8 @@ def all_unique(x):
 
 
 class VaultUtilsTest(unittest.TestCase):
-
     def test_vault_creation(self):
-        test_vaults = create_vaults('test')
+        test_vaults = create_vaults("test")
 
         self.assertEqual((len(test_vaults)), 10)
 
@@ -82,18 +88,18 @@ class VaultUtilsTest(unittest.TestCase):
         app_usernames = []
         app_passwords = []
         for tv in test_vaults:
-            self.assertEqual('test', tv['owner'])
+            self.assertEqual("test", tv["owner"])
 
-            apps.append(tv['app'])
-            app_usernames.append([tv['app_username']])
-            app_passwords.append([tv['app_password']])
+            apps.append(tv["app"])
+            app_usernames.append([tv["app_username"]])
+            app_passwords.append([tv["app_password"]])
 
         self.assertTrue(all_unique(apps))
         self.assertTrue(all_unique(app_usernames))
         self.assertTrue(all_unique(app_passwords))
 
     def test_basic_cipher_func(self):
-        test_cipher, test_key = build_cipher('test_token')
+        test_cipher, test_key = build_cipher("test_token")
 
         self.assertEqual(len(test_key), 32)
         self.assertIsInstance(test_key, bytes)
@@ -101,8 +107,8 @@ class VaultUtilsTest(unittest.TestCase):
 
     # noinspection DuplicatedCode
     def test_encryption_decryption(self):
-        enc_token = 'test_token'
-        username = 'test_user'
+        enc_token = "test_token"
+        username = "test_user"
         enc_nonce = secrets.token_bytes(12)
 
         self.assertIsInstance(enc_nonce, bytes)
@@ -113,9 +119,9 @@ class VaultUtilsTest(unittest.TestCase):
         clear_app_usernames = []
         clear_app_passwords = []
         for v in vaults:
-            clear_apps.append(v['app'])
-            clear_app_usernames.append(v['app_username'])
-            clear_app_passwords.append(v['app_password'])
+            clear_apps.append(v["app"])
+            clear_app_usernames.append(v["app_username"])
+            clear_app_passwords.append(v["app_password"])
 
         enc_cipher, key = build_cipher(enc_token)
         enc_vaults = encrypt_vault(enc_cipher, enc_nonce, vaults)
@@ -124,9 +130,9 @@ class VaultUtilsTest(unittest.TestCase):
         enc_app_usernames = []
         enc_app_passwords = []
         for ev in enc_vaults:
-            enc_apps.append(ev['app'])
-            enc_app_usernames.append(ev['app_username'])
-            enc_app_passwords.append(ev['app_password'])
+            enc_apps.append(ev["app"])
+            enc_app_usernames.append(ev["app_username"])
+            enc_app_passwords.append(ev["app_password"])
 
         self.assertTrue(all_unique(enc_apps))
         self.assertTrue(all_unique(enc_app_usernames))
@@ -153,9 +159,9 @@ class VaultUtilsTest(unittest.TestCase):
         dec_app_usernames = []
         dec_app_passwords = []
         for dv in dec_vaults:
-            dec_apps.append(dv['app'])
-            dec_app_usernames.append(dv['app_username'])
-            dec_app_passwords.append(dv['app_password'])
+            dec_apps.append(dv["app"])
+            dec_app_usernames.append(dv["app_username"])
+            dec_app_passwords.append(dv["app_password"])
 
         self.assertTrue(all_unique(dec_apps))
         self.assertTrue(all_unique(dec_app_usernames))
@@ -168,10 +174,3 @@ class VaultUtilsTest(unittest.TestCase):
         self.assertEqual(dec_apps, clear_apps)
         self.assertEqual(dec_app_usernames, clear_app_usernames)
         self.assertEqual(dec_app_passwords, clear_app_passwords)
-
-
-
-
-
-
-

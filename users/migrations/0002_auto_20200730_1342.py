@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('users', '0001_initial'),
+        ("users", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='srpuser',
-            name='host_password_verifier',
+            model_name="srpuser",
+            name="host_password_verifier",
             field=models.BinaryField(max_length=200),
         ),
     ]

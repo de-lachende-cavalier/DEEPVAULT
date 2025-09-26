@@ -6,6 +6,7 @@ from django.test import TestCase
 from .models import Vault, Nonce
 from secrets import token_bytes
 
+
 def encrypt_vault_after_logout_testing(user, new_token):
     """
     A testing version of the function found in receivers.py. It's basically copy pasted, except for the fact that it doesn't take sender and request as
@@ -15,17 +16,16 @@ def encrypt_vault_after_logout_testing(user, new_token):
     new_nonce.nonce = token_bytes(16)
     new_nonce.save()
 
-    cipher = build_cipher(new_token, b'')
-    encrypt_vault(cipher, user.username, new_nonce.nonce, b'')
+    cipher = build_cipher(new_token, b"")
+    encrypt_vault(cipher, user.username, new_nonce.nonce, b"")
 
 
 class VaultTests(TestCase):
-
     def test_vault_creation(self):
         """
         Checks basic properties that need to be satisfied for correct vault creation and functioning.
         """
-        vault_user = User.objects.create_user(username='vault_user', password='myvault')
+        vault_user = User.objects.create_user(username="vault_user", password="myvault")
 
         with self.assertRaises(ObjectDoesNotExist):
             Vault.objects.get(owner=vault_user)
@@ -38,8 +38,13 @@ class VaultTests(TestCase):
         """
         Checks the permission assigned to the various users regarding vaults.
         """
-        users = [User.objects.create_user(username=token_bytes(16).decode('iso-8859-1'),
-                                          password=token_bytes(16).decode('iso-8859-1')) for _ in range(7)]
+        users = [
+            User.objects.create_user(
+                username=token_bytes(16).decode("iso-8859-1"),
+                password=token_bytes(16).decode("iso-8859-1"),
+            )
+            for _ in range(7)
+        ]
 
         self.assertEqual(len(users), len(set(users)))
 
@@ -55,38 +60,38 @@ class VaultTests(TestCase):
             for vault in qs_vaults:
                 for user in users:
                     if vault.owner == user:
-                        self.assertTrue(user.has_perm('vault.view_vault', vault))
-                        self.assertFalse(user.has_perm('vault.add_vault', vault))
-                        self.assertTrue(user.has_perm('vault.change_vault', vault))
-                        self.assertTrue(user.has_perm('vault.delete_vault', vault))
+                        self.assertTrue(user.has_perm("vault.view_vault", vault))
+                        self.assertFalse(user.has_perm("vault.add_vault", vault))
+                        self.assertTrue(user.has_perm("vault.change_vault", vault))
+                        self.assertTrue(user.has_perm("vault.delete_vault", vault))
                     else:
-                        self.assertFalse(user.has_perm('vault.view_vault', vault))
-                        self.assertFalse(user.has_perm('vault.add_vault', vault))
-                        self.assertFalse(user.has_perm('vault.change_vault', vault))
-                        self.assertFalse(user.has_perm('vault.delete_vault', vault))
+                        self.assertFalse(user.has_perm("vault.view_vault", vault))
+                        self.assertFalse(user.has_perm("vault.add_vault", vault))
+                        self.assertFalse(user.has_perm("vault.change_vault", vault))
+                        self.assertFalse(user.has_perm("vault.delete_vault", vault))
 
     # noinspection DuplicateCode
     def test_vault_encryption_decryption(self):
         """
         Checks the encryption/decryption procedure as applied to actual vaults in the database.
         """
-        user = User.objects.create_user(username='enc_dec', password='decryptthis')
+        user = User.objects.create_user(username="enc_dec", password="decryptthis")
 
         self.assertEqual(Nonce.objects.filter(user=user).count(), 1)
 
         nonce = Nonce.objects.get(user=user)
-        self.assertEqual(nonce.nonce, b'')
+        self.assertEqual(nonce.nonce, b"")
 
         # first login and adding vaults
-        new_token = encrypt_with_random_key('enc_token').decode()
+        new_token = encrypt_with_random_key("enc_token").decode()
         self.assertIsInstance(new_token, str)
 
         for _ in range(4):
             Vault.objects.create(
                 owner=user,
-                app=token_bytes(16).decode('iso-8859-1'),
-                app_username=token_bytes(16).decode('iso-8859-1'),
-                app_password=token_bytes(16).decode('iso-8859-1'),
+                app=token_bytes(16).decode("iso-8859-1"),
+                app_username=token_bytes(16).decode("iso-8859-1"),
+                app_password=token_bytes(16).decode("iso-8859-1"),
             )
 
         self.assertEqual(Vault.objects.filter(owner=user).count(), 4)
@@ -108,7 +113,7 @@ class VaultTests(TestCase):
         encrypt_vault_after_logout_testing(user=user, new_token=new_token)
 
         nonce = Nonce.objects.get(user=user)
-        self.assertNotEqual(nonce.nonce, b'')
+        self.assertNotEqual(nonce.nonce, b"")
         self.assertIsInstance(nonce.nonce, bytes)
 
         enc_vaults = Vault.objects.filter(owner=user)
@@ -132,11 +137,11 @@ class VaultTests(TestCase):
         # login yet again
         old_token = new_token
 
-        cipher = build_cipher(old_token, b'')
-        decrypt_vault(cipher, user, b'')
+        cipher = build_cipher(old_token, b"")
+        decrypt_vault(cipher, user, b"")
 
         nonce = Nonce.objects.get(user=user)
-        self.assertEqual(nonce.nonce, b'')
+        self.assertEqual(nonce.nonce, b"")
 
         dec_vaults = Vault.objects.filter(owner=user)
         dec_apps = [dv.app for dv in dec_vaults]
@@ -150,8 +155,3 @@ class VaultTests(TestCase):
         self.assertEqual(dec_apps, clear_apps)
         self.assertEqual(dec_app_usernames, clear_app_usernames)
         self.assertEqual(dec_app_passwords, clear_app_passwords)
-
-
-
-
-

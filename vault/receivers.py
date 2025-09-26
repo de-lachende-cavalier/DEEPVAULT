@@ -17,15 +17,14 @@ def encrypt_vault_after_logout(user, sender, request, **kwargs):
     :param request: the current request object
     :param kwargs: extra args
     """
-    if 'temp_token' in request.session:
-        new_token = request.session['temp_token']
-        del request.session['temp_token']
+    if "temp_token" in request.session:
+        new_token = request.session["temp_token"]
+        del request.session["temp_token"]
         request.session.flush()
 
         new_nonce = Nonce.objects.get(user__username__exact=user)
         new_nonce.nonce = token_bytes(16)
         new_nonce.save()
 
-        cipher = build_cipher(new_token, b'')
-        encrypt_vault(cipher, user, new_nonce.nonce, b'')
-
+        cipher = build_cipher(new_token, b"")
+        encrypt_vault(cipher, user, new_nonce.nonce, b"")

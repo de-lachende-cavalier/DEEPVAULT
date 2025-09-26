@@ -4,20 +4,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('vault', '0005_auto_20200821_2022'),
+        ("vault", "0005_auto_20200821_2022"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='vault',
-            name='app',
-            field=models.CharField(default='', max_length=200),
+            model_name="vault",
+            name="app",
+            field=models.CharField(default="", max_length=200),
         ),
         migrations.AlterField(
-            model_name='vault',
-            name='app_username',
-            field=models.CharField(default='', max_length=200),
+            model_name="vault",
+            name="app_username",
+            field=models.CharField(default="", max_length=200),
         ),
     ]

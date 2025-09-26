@@ -7,19 +7,33 @@ import rules.contrib.models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('vault', '0003_auto_20200813_1617'),
+        ("vault", "0003_auto_20200813_1617"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Nonce',
+            name="Nonce",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('nonce', models.BinaryField(default=b'', max_length=20)),
-                ('user', models.OneToOneField(default=None, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("nonce", models.BinaryField(default=b"", max_length=20)),
+                (
+                    "user",
+                    models.OneToOneField(
+                        default=None,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
             bases=(rules.contrib.models.RulesModelMixin, models.Model),
         ),

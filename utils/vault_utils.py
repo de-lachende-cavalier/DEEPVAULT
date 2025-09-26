@@ -12,15 +12,7 @@ Once more, the functions are self-explanatory.
 
 
 def build_cipher(token, salt):
-
-    kdf = Scrypt(
-        salt=salt,
-        length=32,
-        n=2**16,
-        r=8,
-        p=1,
-        backend=default_backend()
-    )
+    kdf = Scrypt(salt=salt, length=32, n=2**16, r=8, p=1, backend=default_backend())
 
     key = kdf.derive(token.encode())
     cipher = AESGCM(key)
@@ -33,10 +25,14 @@ def encrypt_vault(cipher, username, nonce, aad):
     vaults = Vault.objects.filter(owner=user)
 
     for vault in vaults:
-        if user.has_perm('vault.change_vault', vault):
+        if user.has_perm("vault.change_vault", vault):
             vault.app = cipher.encrypt(nonce, vault.app.encode(), aad).hex()
-            vault.app_username = cipher.encrypt(nonce, vault.app_username.encode(), aad).hex()
-            vault.app_password = cipher.encrypt(nonce, vault.app_password.encode(), aad).hex()
+            vault.app_username = cipher.encrypt(
+                nonce, vault.app_username.encode(), aad
+            ).hex()
+            vault.app_password = cipher.encrypt(
+                nonce, vault.app_password.encode(), aad
+            ).hex()
 
         vault.save()
 
@@ -46,15 +42,19 @@ def decrypt_vault(cipher, user, aad):
     vaults = Vault.objects.filter(owner=user)
 
     for vault in vaults:
-        if user.has_perm('vault.view_vault', vault):
-            vault.app = cipher.decrypt(old_nonce.nonce, bytes.fromhex(vault.app), aad).decode()
-            vault.app_username = cipher.decrypt(old_nonce.nonce, bytes.fromhex(vault.app_username), aad).decode()
-            vault.app_password = cipher.decrypt(old_nonce.nonce, bytes.fromhex(vault.app_password), aad).decode()
+        if user.has_perm("vault.view_vault", vault):
+            vault.app = cipher.decrypt(
+                old_nonce.nonce, bytes.fromhex(vault.app), aad
+            ).decode()
+            vault.app_username = cipher.decrypt(
+                old_nonce.nonce, bytes.fromhex(vault.app_username), aad
+            ).decode()
+            vault.app_password = cipher.decrypt(
+                old_nonce.nonce, bytes.fromhex(vault.app_password), aad
+            ).decode()
 
         vault.save()
 
     # cleanup
-    old_nonce.nonce = b''
+    old_nonce.nonce = b""
     old_nonce.save()
-
-

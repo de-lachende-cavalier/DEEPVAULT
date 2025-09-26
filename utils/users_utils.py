@@ -8,7 +8,7 @@ Again, the functions are pretty self-explanatory.
 
 
 def create_user_token(username):
-    dict_path = '/Users/d0larhyde/DEEPVAULT/utils/dictionary/'
+    dict_path = "/Users/d0larhyde/DEEPVAULT/utils/dictionary/"
     tokenized_username = ""
 
     for char in username:
@@ -17,17 +17,19 @@ def create_user_token(username):
                 if not tokenized_username:
                     tokenized_username += get_random_line(dict_path + char)
                 else:
-                    tokenized_username += '-' + get_random_line(dict_path + char)
+                    tokenized_username += "-" + get_random_line(dict_path + char)
             else:
                 if not tokenized_username:
                     tokenized_username += get_random_line(dict_path + char).title()
                 else:
-                    tokenized_username += '-' + get_random_line(dict_path + char).title()
+                    tokenized_username += (
+                        "-" + get_random_line(dict_path + char).title()
+                    )
 
         else:
             if not tokenized_username:
                 tokenized_username += char
             else:
-                tokenized_username += '-' + char
+                tokenized_username += "-" + char
 
     return tokenized_username

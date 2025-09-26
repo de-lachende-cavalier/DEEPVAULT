@@ -15,10 +15,11 @@ except KeyError:
     print("The symmetric key file has not been defined in utils/fernet_keystore.py!")
     pass
 
+
 def generate_keystore(key_num):
-    with open(KEYSTORE, 'w+') as k:
+    with open(KEYSTORE, "w+") as k:
         for _ in range(key_num):
-            k.write(Fernet.generate_key().decode() + '\n')
+            k.write(Fernet.generate_key().decode() + "\n")
 
 
 def encrypt_with_random_key(message):
@@ -34,11 +35,10 @@ def encrypt_with_random_key(message):
 def decrypt_with_random_key(encrypted_message):
     crypto_utils.decrypt_keystore(KEYSTORE, SYMKEY_FILE)
 
-    with open(KEYSTORE, 'r') as k:
+    with open(KEYSTORE, "r") as k:
         keys = k.read().splitlines()
     crypto_utils.encrypt_keystore(KEYSTORE, SYMKEY_FILE)
 
     mf = MultiFernet([Fernet(key) for key in keys])
 
     return mf.decrypt(encrypted_message.encode()).decode()
-

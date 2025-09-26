@@ -4,28 +4,27 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('vault', '0001_initial'),
+        ("vault", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='vault',
-            name='app',
-            field=models.CharField(default='', max_length=50),
+            model_name="vault",
+            name="app",
+            field=models.CharField(default="", max_length=50),
         ),
         migrations.AddField(
-            model_name='vault',
-            name='app_password',
-            field=models.CharField(default='', max_length=100),
+            model_name="vault",
+            name="app_password",
+            field=models.CharField(default="", max_length=100),
         ),
         migrations.AddField(
-            model_name='vault',
-            name='app_username',
-            field=models.CharField(default='', max_length=50),
+            model_name="vault",
+            name="app_username",
+            field=models.CharField(default="", max_length=50),
         ),
         migrations.DeleteModel(
-            name='Safe',
+            name="Safe",
         ),
     ]

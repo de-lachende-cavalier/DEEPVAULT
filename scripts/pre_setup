@@ -17,6 +17,3 @@ python3 -c "from utils import fernet_keystore_utils; fernet_keystore_utils.gener
 python3 -c "from utils import crypto_utils; crypto_utils.encrypt_keystore('/Users/d0larhyde/DEEPVAULT/keystore.enc', '$TEMP')" &&
 
 echo -e "Done.\n"
-
-
-

@@ -13,6 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
 from django.urls import path, include
 from users import views as user_views
@@ -20,16 +21,21 @@ from django.contrib.auth import views as auth_views
 from token_manager import views as token_view
 
 urlpatterns = [
-    path('', include('home.urls')),
-    path('vault/', include('vault.urls')),
-
-    path('registration/', user_views.registration,
-         name='registration'),
-    path('token', token_view.token,
-         name='user_token'),
-    path('login/', auth_views.LoginView.as_view(redirect_authenticated_user=True, template_name='users/login.html'),
-         name='login'),
-    path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'),
-         name='logout'),
-    path('user-delete/', user_views.user_delete, name='user_delete')
+    path("", include("home.urls")),
+    path("vault/", include("vault.urls")),
+    path("registration/", user_views.registration, name="registration"),
+    path("token", token_view.token, name="user_token"),
+    path(
+        "login/",
+        auth_views.LoginView.as_view(
+            redirect_authenticated_user=True, template_name="users/login.html"
+        ),
+        name="login",
+    ),
+    path(
+        "logout/",
+        auth_views.LogoutView.as_view(template_name="users/logout.html"),
+        name="logout",
+    ),
+    path("user-delete/", user_views.user_delete, name="user_delete"),
 ]

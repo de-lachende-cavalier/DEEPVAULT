@@ -4,13 +4,12 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('users', '0002_auto_20200730_1342'),
+        ("users", "0002_auto_20200730_1342"),
     ]
 
     operations = [
         migrations.DeleteModel(
-            name='SRPUser',
+            name="SRPUser",
         ),
     ]

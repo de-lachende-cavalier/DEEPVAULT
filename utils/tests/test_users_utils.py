@@ -4,9 +4,8 @@ import unittest
 
 
 class UserUtilsTest(unittest.TestCase):
-
     def test_uniqueness(self):
-        starting_user = 'test'
+        starting_user = "test"
         sample_size = 20000
         username_pool = []
 
@@ -20,10 +19,7 @@ class UserUtilsTest(unittest.TestCase):
         self.assertFalse(users_utils.create_user_token(""))
 
     def test_nonalpha_input(self):
-        starting_user = 'test12__@'
+        starting_user = "test12__@"
         tokenized_user = users_utils.create_user_token(starting_user)
 
         self.assertEqual(get_user_token_initials(tokenized_user), starting_user)
-
-
-
