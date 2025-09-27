@@ -2,18 +2,14 @@
 
 echo -e "Preparing...\n"
 
-for file in $(ls /tmp/)
-do
-    shred -fuzn 100 '/tmp/'$file
-done
-
-node /Users/d0larhyde/deepapi/app.js &
-python3 /Users/d0larhyde/DEEPVAULT/scripts/encrypt_decrypt_locally.py &&
+node $PWD/deepapi/app.js &
+python $PWD/scripts/encrypt_decrypt_locally.py &&
 killall node &&
 
-export PYTHONPATH="/Users/d0larhyde/DEEPVAULT" &&
+export PYTHONPATH="$PWD/DEEPVAULT" &&
 export TEMP='/tmp/'$(ls /tmp | grep '^[0-9a-f]*$') &&
-python3 -c "from utils import fernet_keystore_utils; fernet_keystore_utils.generate_keystore(10)" &&
-python3 -c "from utils import crypto_utils; crypto_utils.encrypt_keystore('/Users/d0larhyde/DEEPVAULT/keystore.enc', '$TEMP')" &&
+# use the virtual python interpreter
+python -c "from utils import fernet_keystore_utils; fernet_keystore_utils.generate_keystore(10)" &&
+python -c "from utils import crypto_utils; crypto_utils.encrypt_keystore('$PWD/keystore.enc', '$TEMP')" &&
 
 echo -e "Done.\n"
