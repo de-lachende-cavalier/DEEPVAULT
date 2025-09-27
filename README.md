@@ -1,19 +1,35 @@
-# What is DEEPVAULT?
+# DEEPVAULT
 
-DEEPVAULT is a password manager prototype exclusively for Tor users meant to offer higher security and privacy 
-than any password manager now in existence without sacrificing the portability of password managers directly 
-accessible by your browser.
-I made it as a University project, in an attempt to spin up a very secure and private web app (and to get an
-idea as to what that entails, both at a design and at the implementation level).
-(Also, I felt like learning Django.)
+DEEPVAULT is a password manager meant to offer uncompromising security and privacy.
+For further information, check the various specs in the `docs/` directory.
 
-# Technical details
+**N.B: The project is in its alpha/PoC stage!**
 
-DEEPVAULT is mostly made with Django, so written in Python.
-It also uses NodeJS, mostly to handle cryptographic keys and keep them away from the business logic of the main 
-Django code, in an effort to mimic a sort of LSM (a bit overcomplicated, i know...).
+## Running the code
 
-# Contributing
+DEEPVAULT relies mainly on Django and NodeJS. It uses `Python 3.8`.
+To run it locally, follow these steps:
 
-Even though DEEPVAULT is not yet production ready (as specified above, it's mostly in its prototype stage and I have no
-plans to make it production ready) any contribution/tip is still very welcome.
+1. Navigate to the project directory (`cd DEEPVAULT`);
+
+2. Create a virtual environment and activate it (`python3.8 -m venv venv` and `source venv/bin/activate`);
+
+3. Navigate to the `deepapi/` directory and run `npm install` to install the NodeJS dependencies;
+
+4. Go back to the root directory (`cd ..`), and install all the python dependencies (`pip install -r requirements.txt`);
+
+5. Start a local PostgreSQL server (`sudo service postgresql start`), have it listen on port 9863, and set the `DB_USER`, `DB_PASS` and `DB_NAME` environment variables to the appropriate values (the ones used for PostgreSQL);
+
+6. Set the `DJ_KEY` environment variable (`export DJ_KEY=<your_key>`);
+
+7. Run the `pre_setup` script (found in the `scripts/` directory) to take care of the initial node setup;
+
+8. Initialise the database (`python manage.py migrate` and `python manage.py createsuperuser`);
+
+8. Create a certificate/key pair for HTTPS (e.g., `openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes`);
+
+9. Collect the static files (`python manage.py collectstatic`);
+
+10. Run gunicorn to start the Django server (`gunicorn DEEPVAULT.wsgi:application --bind 127.0.0.1:9000 --certfile cert.pem --keyfile key.pem`);
+
+11. Open https://127.0.0.1:9000.
